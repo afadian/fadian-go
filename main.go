@@ -15,7 +15,7 @@ var (
 )
 
 func init() {
-	var params = &data.BootstrapParams{}
+	var params data.BootstrapParams
 	flag.StringVar(&params.Name, "name", "", "发癫对象")
 	flag.BoolVar(&params.IsInteractive, "i", false, "是否进入交互模式")
 	flag.BoolVar(&params.IsFabing, "f", false, "是否进入发病模式")
@@ -23,7 +23,7 @@ func init() {
 	flag.BoolVar(&params.Debug, "d", false, "是否开启调试模式")
 	flag.Parse()
 
-	app = entry.Initialize(ctx, params)
+	app = entry.Initialize(ctx, &params)
 }
 
 func main() {
