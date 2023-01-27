@@ -37,13 +37,9 @@ func FaBing(name string, num int) string {
 	……可爱的{name}……嘿嘿🤤,
 	……可爱的{name}……我的～……嘿嘿🤤`
 	name1 := strings.ReplaceAll(fadian, "{name}", name)
-	if string(num) == "" {
-		return name1
-	} else {
-		buf := make([]byte, 0, num*len(name1))
-		for i := 0; i < num; i++ {
-			buf = append(buf, name1...)
-		}
-		return string(buf)
+	buf := make([]byte, 0, num*len(name1))
+	for i := 0; i < num; i++ {
+		buf = append(buf, name1...)
 	}
+	return string(buf)
 }

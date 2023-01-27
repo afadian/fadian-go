@@ -24,13 +24,9 @@ func dog(name string, num int) string {
 我希望她能把我扔得近一点，因为我还是好喜欢她。会一直喜欢下去的。
 我的灵魂透过窗户向里面看去，挂着的铃铛在轻轻鸣响，{name}小姐慵懒地靠在沙发上，表演得非常温顺的橘猫坐在她的肩膀。壁炉的火光照在她的脸庞，我冻僵的心脏在风里微微发烫。`
 	name1 := strings.ReplaceAll(text, "{name}", name)
-	if string(num) == "" {
-		return name1
-	} else {
-		buf := make([]byte, 0, num*len(name1))
-		for i := 0; i < num; i++ {
-			buf = append(buf, name1...)
-		}
-		return string(buf)
+	buf := make([]byte, 0, num*len(name1))
+	for i := 0; i < num; i++ {
+		buf = append(buf, name1...)
 	}
+	return string(buf)
 }
