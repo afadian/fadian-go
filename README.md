@@ -18,6 +18,7 @@ Usage of fadian-go:
 ## Build with source code
 
 1. Clone this repository: `git clone https://github.com/afadian/fadian-go.git`
-2. Run `go mod download` to download dependencies
-3. Run `go build -o fadian` to build the project
-4. Run `./fadian` to run the project
+2. Run `cd fadian-go` to enter the project directory.
+3. Run `go mod download` to download dependencies.
+4. Run `go build -o fadian-go` to build the project.
+5. Run `./fadian-go` to run the project.
