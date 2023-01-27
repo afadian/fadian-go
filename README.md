@@ -4,27 +4,20 @@
 
 本工具可以帮助您快速发癫。
 
-# Usage
+## Usage
 
 ```
-Usage of fadian:
-  -fabing
-
-  -interactive
-        是否进入交互模式
-  -name string
-        发癫对象
-  -num int
+Usage of fadian-go:
+  -d            是否开启调试模式
+  -f            是否进入发病模式
+  -i            是否进入交互模式
+  -name string  发癫对象
+  -num int      发病/发癫次数 (default 1)
 ```
 
-# Build
-```bash
-go build -o fadian
-```
+## Build with source code
 
-# Run with source code
-```bash
-git clone https://github.com/afadian/fadian-go
-cd fadian-go
-go run *.go
-```
+1. Clone this repository: `git clone https://github.com/afadian/fadian-go.git`
+2. Run `go mod download` to download dependencies
+3. Run `go build -o fadian` to build the project
+4. Run `./fadian` to run the project
