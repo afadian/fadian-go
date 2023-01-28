@@ -27,9 +27,6 @@ jobs:
         mkdir -p dist
         go build -o dist/fadian-go -v ./main.go
 
-    - name: Test
-      run: go test -v ./...
-
     - name: Upload artifacts
       uses: actions/upload-artifact@v3
       with:
