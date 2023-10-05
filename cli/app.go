@@ -28,8 +28,8 @@ func NewApp(params Params) *cli.App {
 		Copyright: fmt.Sprintf("2022-%d © 爱发癫 All Rights Reserved", time.Now().Year()),
 		Authors: []*cli.Author{
 			{Name: "AH Dark", Email: "ahdark@outlook.com"},
-			{Name: "Kevin Williams", Email: ""}, // TODO: add email
-			{Name: "Purofle", Email: ""},        // TODO: add email
+			{Name: "Kevin Williams", Email: "admin@utermux.dev"},
+			{Name: "Purofle", Email: "purofle@gmail.com"},
 		},
 		EnableBashCompletion: true,
 		CommandNotFound:      params.HandleNotFound,

@@ -14,7 +14,10 @@ type DebugParam struct {
 }
 
 func NewLogger(p DebugParam, lc fx.Lifecycle) (*zap.Logger, error) {
-	logger, err := lo.If(p.Debug, zap.NewDevelopment).Else(zap.NewProduction)()
+	logger, err := lo.If(p.Debug, zap.NewDevelopment).Else(zap.NewProduction)(
+		zap.AddStacktrace(zap.PanicLevel),
+		zap.WithCaller(p.Debug),
+	)
 	if err != nil {
 		zap.L().Panic("initial logger failed", zap.Error(err))
 		return nil, err

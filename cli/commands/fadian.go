@@ -2,14 +2,17 @@ package commands
 
 import (
 	"bytes"
+	"errors"
 	"fmt"
-	"github.com/afadian/fadian-go/data/sections"
+	"strings"
+	"text/template"
+
 	"github.com/samber/lo"
 	"github.com/urfave/cli/v2"
 	"github.com/vinta/pangu"
 	"go.uber.org/zap"
-	"strings"
-	"text/template"
+
+	"github.com/afadian/fadian-go/data/sections"
 )
 
 func HandleFadian() (*cli.Command, error) {
@@ -35,9 +38,23 @@ func HandleFadian() (*cli.Command, error) {
 			},
 		},
 		Action: func(c *cli.Context) error {
+			name := c.String("name")
+			if c.Bool("interactive") {
+				fmt.Print("对谁发癫？")
+				if _, err := fmt.Scan(&name); err != nil {
+					zap.L().Error("failed to scan name", zap.Error(err))
+					return err
+				}
+			}
+
+			if name == "" {
+				zap.L().Error("name is empty")
+				return errors.New("name is empty")
+			}
+
 			buf := bytes.NewBuffer([]byte{})
 			if err := tpl.Execute(buf, FadianParams{
-				Name: c.String("name"),
+				Name: name,
 			}); err != nil {
 				zap.L().Error("failed to execute fadian template", zap.Error(err))
 				return err

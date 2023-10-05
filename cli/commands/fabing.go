@@ -2,14 +2,17 @@ package commands
 
 import (
 	"bytes"
+	"errors"
 	"fmt"
-	"github.com/afadian/fadian-go/data/sections"
+	"strings"
+	"text/template"
+
 	"github.com/samber/lo"
 	"github.com/urfave/cli/v2"
 	"github.com/vinta/pangu"
 	"go.uber.org/zap"
-	"strings"
-	"text/template"
+
+	"github.com/afadian/fadian-go/data/sections"
 )
 
 func HandleFabing() (*cli.Command, error) {
@@ -30,16 +33,36 @@ func HandleFabing() (*cli.Command, error) {
 		Usage: "发病",
 		Flags: []cli.Flag{
 			&cli.StringFlag{
-				Name:     "name",
-				Aliases:  []string{"n"},
-				Usage:    "对谁发病",
-				Required: true,
+				Name:    "name",
+				Aliases: []string{"n"},
+				Usage:   "对谁发病",
+				Value:   "",
+			},
+			&cli.BoolFlag{
+				Name:    "interactive",
+				Aliases: []string{"i"},
+				Usage:   "是否交互式发病",
+				Value:   false,
 			},
 		},
 		Action: func(c *cli.Context) error {
+			name := c.String("name")
+			if c.Bool("interactive") {
+				fmt.Print("对谁发病？")
+				if _, err := fmt.Scan(&name); err != nil {
+					zap.L().Error("failed to scan name", zap.Error(err))
+					return err
+				}
+			}
+
+			if name == "" {
+				zap.L().Error("name is empty")
+				return errors.New("name is empty")
+			}
+
 			buf := bytes.NewBuffer([]byte{})
 			if err := tpl.Execute(buf, FabingParams{
-				Name: c.String("name"),
+				Name: name,
 			}); err != nil {
 				zap.L().Error("failed to execute fabing template", zap.Error(err))
 				return err
@@ -48,7 +71,7 @@ func HandleFabing() (*cli.Command, error) {
 			str := pangu.SpacingText(buf.String())
 			zap.L().Debug("fabing text generated", zap.String("text", str))
 
-			fmt.Sprintln(strings.Join(lo.RepeatBy(c.Int("num"), func(_ int) string {
+			fmt.Println(strings.Join(lo.RepeatBy(c.Int("num"), func(_ int) string {
 				return str
 			}), "\n"))
 
