@@ -50,13 +50,9 @@ archives:
       - goos: windows
         format: zip
     files:
-      - src: data/*
-        dst: data
-        info:
-          owner: root
-          group: root
-          mtime: "{{ .CommitDate }}"
-          mode: 0644
+      - LICENSE
+      - README.md
+      - public-key.pem
 
 release:
   github:
