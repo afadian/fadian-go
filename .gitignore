@@ -1,3 +1,6 @@
+### GoReleaser template
+/dist/
+
 ### VisualStudioCode template
 .vscode/*
 !.vscode/settings.json
