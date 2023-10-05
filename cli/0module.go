@@ -8,6 +8,7 @@ import (
 func Module() fx.Option {
 	return fx.Options(
 		commands.Module(),
+		fx.Provide(NewApp),
 		fx.Invoke(InvokeApp),
 	)
 }

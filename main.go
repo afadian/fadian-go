@@ -2,8 +2,6 @@ package main
 
 import (
 	"context"
-	"flag"
-
 	"go.uber.org/fx"
 
 	"github.com/afadian/fadian-go/data"
@@ -16,15 +14,10 @@ var (
 
 	version = "0.0.1"
 	commit  = "0000000"
-	debug   = false
 )
 
 func init() {
-	flag.BoolVar(&debug, "d", false, "是否开启调试模式")
-	flag.Parse()
-
 	app = entry.Initialize(ctx, &data.BootstrapParams{
-		Debug:   debug,
 		Version: version,
 		Commit:  commit,
 	})

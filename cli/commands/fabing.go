@@ -26,12 +26,13 @@ func HandleFabing() (*cli.Command, error) {
 	}
 
 	return &cli.Command{
-		Name: "fabing",
+		Name:  "fabing",
+		Usage: "发病",
 		Flags: []cli.Flag{
 			&cli.StringFlag{
 				Name:     "name",
 				Aliases:  []string{"n"},
-				Usage:    "name to be fabing",
+				Usage:    "对谁发病",
 				Required: true,
 			},
 		},

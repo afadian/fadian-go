@@ -20,7 +20,7 @@ type Params struct {
 	HandleNotFound cli.CommandNotFoundFunc
 }
 
-func InvokeApp(lc fx.Lifecycle, params Params) {
+func NewApp(params Params) *cli.App {
 	app := &cli.App{
 		Name:      "fadian-go",
 		Usage:     "发癫",
@@ -37,7 +37,7 @@ func InvokeApp(lc fx.Lifecycle, params Params) {
 		Flags: []cli.Flag{
 			&cli.BoolFlag{
 				Name:    "debug",
-				Aliases: []string{"d"},
+				Hidden:  true,
 				Usage:   "是否开启调试模式",
 				EnvVars: []string{"DEBUG"},
 			},
@@ -49,11 +49,21 @@ func InvokeApp(lc fx.Lifecycle, params Params) {
 		},
 	}
 
-	lc.Append(fx.Hook{
-		OnStart: func(ctx context.Context) error {
-			return app.RunContext(ctx, os.Args)
-		},
-	})
+	app.Setup()
 
 	zap.L().Debug("app initialized")
+
+	return app
+}
+
+func InvokeApp(app *cli.App, lc fx.Lifecycle) {
+	lc.Append(fx.Hook{
+		OnStart: func(ctx context.Context) error {
+			if err := app.RunContext(ctx, os.Args); err != nil {
+				zap.L().Warn("app run failed", zap.Error(err))
+			}
+
+			return nil
+		},
+	})
 }

@@ -24,12 +24,13 @@ func HandleFadian() (*cli.Command, error) {
 	}
 
 	return &cli.Command{
-		Name: "fadian",
+		Name:  "fadian",
+		Usage: "发癫",
 		Flags: []cli.Flag{
 			&cli.StringFlag{
 				Name:     "name",
 				Aliases:  []string{"n"},
-				Usage:    "name to be fadian",
+				Usage:    "对谁发癫",
 				Required: true,
 			},
 		},

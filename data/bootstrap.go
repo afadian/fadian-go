@@ -1,7 +1,10 @@
 package data
 
 type BootstrapParams struct {
-	Version string
-	Commit  string
-	Debug   bool
+	Version string `name:"version"`
+	Commit  string `name:"commit"`
+}
+
+type SystemConfig struct {
+	Debug bool
 }
