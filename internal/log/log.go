@@ -1,24 +1,24 @@
 package log
 
 import (
-	"github.com/afadian/fadian-go/data"
+	"context"
+	"github.com/samber/lo"
+	"go.uber.org/fx"
 	"go.uber.org/zap"
 )
 
-func NewLogger(params *data.BootstrapParams) *zap.Logger {
-	var logger *zap.Logger
-	var err error
-	if params.Debug {
-		logger, err = zap.NewDevelopment()
-	} else {
-		logger, err = zap.NewProduction()
-	}
-
+func NewLogger(debug bool, lc fx.Lifecycle) (*zap.Logger, error) {
+	logger, err := lo.If(debug, zap.NewDevelopment).Else(zap.NewProduction)()
 	if err != nil {
 		zap.L().Panic("initial logger failed", zap.Error(err))
+		return nil, err
 	}
 
-	defer logger.Sync()
+	lc.Append(fx.Hook{
+		OnStop: func(context.Context) error {
+			return logger.Sync()
+		},
+	})
 
-	return logger
+	return logger, nil
 }
