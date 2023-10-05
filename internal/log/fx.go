@@ -5,7 +5,11 @@ import (
 	"go.uber.org/zap"
 )
 
-func FX(logger *zap.Logger) fxevent.Logger {
+func FX(p DebugParam, logger *zap.Logger) fxevent.Logger {
+	if !p.Debug {
+		return &fxevent.NopLogger
+	}
+
 	return &fxevent.ZapLogger{
 		Logger: logger,
 	}
